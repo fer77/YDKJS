@@ -21,8 +21,39 @@ function baz(foo) {
   foo = 'bam';
   bam = 'yay'; // This assigns to a global variable, because it wasn't declared anywhere the JS engine creates it for us (leakage).
 }
+
+foo; // global RHS 'bar'
+bam; // global RHS 'yay'
+baz(); // results in a reference error (Error!), because there is no identifier named baz() in the global scope.
 ```
 
 **Undefined** means that the JS engine found or created a declaration, but was unable to find a reference in any scope.
 
 **Undeclared** is when there is no declaration for a variable.
+
+## Function Declarations & Function Expressions
+
+A function _declaration_ is when the function keyword is the very first word in the statement.
+
+Function _expressions_ start with _var_.  Expressions are usually anonymous function expressions, `var foo = function() {}`.
+  Three cons for using anonymous function expressions:
+
+  1. No way to reference itself.
+  2. Hard to debug, because the only name to reference it by is "anonymous".
+  3. Self documents code.  What is it that it does `var foo = function sneeze() {...}`.
+
+  A _named function expression_ `var foo = function bar() {}`. the 'bar' name does not get declared in the outer scope, but it exists and can be referenced inside itself.
+
+```javascript
+var foo = function bar() {
+  var foo = 'baz';
+  function baz(foo) {
+    foo = bar;
+    foo; // function...
+  }
+  baz();
+};
+
+foo();
+bar(); // Error!
+```
