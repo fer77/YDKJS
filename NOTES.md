@@ -101,3 +101,15 @@ An IFFE pattern is a way to manually pass in alias variables from the enclosing 
 
 `let` keyword will explicitly "highjack" the scope where the declaration is created rather than to the enclosing function.
 the `let` keyword does not "hoist"
+
+## Review
+---
+
+What type of scoping does JS have? Exceptions?
+_lexical scope._  `eval()` _and_ `with` _keyword._
+
+What ways can be used to create scope?
+_functions,_ `try` `catch` `{let...}` _keyword_
+
+Undeclared vs Undefined
+_Undefined does not currently have a value(empty place holder), but there is a declared variable.  Undeclared has never been declared(reference error)._
