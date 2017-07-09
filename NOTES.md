@@ -1,4 +1,5 @@
 ## Scope
+---
 
 ```javascript
 // The first pass(compilation phase) of the JS engine looks for all the variable declarations(var, function...).
@@ -32,6 +33,7 @@ baz(); // results in a reference error (Error!), because there is no identifier 
 **Undeclared** is when there is no declaration for a variable.
 
 ## Function Declarations & Function Expressions
+---
 
 A function _declaration_ is when the function keyword is the very first word in the statement.
 
@@ -57,3 +59,9 @@ var foo = function bar() {
 foo();
 bar(); // Error!
 ```
+
+## Lexical Scope
+---
+
+**lexical scope** compile(lex) time scope. The compiler decides what the scope is set at this point.
+**dynamic scope** Not used in JS or in other common programming languages.  Dynamic scope is used in bash.
