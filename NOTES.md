@@ -113,3 +113,69 @@ _functions,_ `try` `catch` `{let...}` _keyword_
 
 Undeclared vs Undefined
 _Undefined does not currently have a value(empty place holder), but there is a declared variable.  Undeclared has never been declared(reference error)._
+
+## Hoisting
+---
+
+Does not exist, it is a mental way or conceptual model to think of in JS.
+
+Declarations of variables and functions are "hoisted" to the top of the code (`let` do not "hoist").  What this means is that all the LHS happens at compile time and RHS happens during execution.
+
+```javascript
+var a = b(); // will return undefined because "c" in function b hasn't been declared yet.
+var c = d(); // will return undefined.
+
+// function declarations get "hoisted" (function b()), but function expressions (var d = function()) do not.
+
+a; // ???
+c; // ???
+
+function b() {
+  return c;
+}
+
+var d = function() {
+  return b;
+};
+```
+
+This is how "hoisting" works for the block above:
+
+```javascript
+// functions are hoisted to the top...
+function b() {
+  return c;
+}
+// then our variables
+var a;
+var b;
+var c;
+// then code is executed;
+a = b();
+c = d();
+a; // ???
+c; // ???
+d = function() {
+  return b;
+};
+```
+
+**Recursion** when a function calls itself.
+**mutual recursion** two or more functions calling each other.
+
+This would be impossible without the concept of hoisting:
+
+```javascript
+a(1);
+
+function a(foo) {
+  if (foo > 20) return foo;
+  return b(foo + 2);
+}
+function b(foo) {
+  return c(foo) + 1;
+}
+function c(foo) {
+  return a(foo * 2);
+}
+```
