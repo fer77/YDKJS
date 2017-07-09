@@ -44,7 +44,7 @@ Function _expressions_ start with _var_.  Expressions are usually anonymous func
   2. Hard to debug, because the only name to reference it by is "anonymous".
   3. Self documents code.  What is it that it does `var foo = function sneeze() {...}`.
 
-  A _named function expression_ `var foo = function bar() {}`. the 'bar' name does not get declared in the outer scope, but it exists and can be referenced inside itself.
+  A _named function expression_ `var foo = function bar() {}`. the "bar" name does not get declared in the outer scope, but it exists and can be referenced inside itself.
 
 ```javascript
 var foo = function bar() {
@@ -65,3 +65,39 @@ bar(); // Error!
 
 **lexical scope** compile(lex) time scope. The compiler decides what the scope is set at this point.
 **dynamic scope** Not used in JS or in other common programming languages.  Dynamic scope is used in bash.
+
+## IIFE Pattern
+---
+
+The surrounding () in an IIFE makes a function an expression and not a declaration.
+
+```javascript
+var = 'foo';
+
+(function() {
+  var foo = 'foo2';
+
+  console.log(foo); // "foo2"
+})();
+
+console.log(foo); // "foo"
+```
+
+An IFFE is a function call, which means we can pass things to it.
+
+```javascript
+var = 'foo';
+
+(function(bar) //($) {
+  var foo = 'bar';
+
+  console.log(foo); // "foo"
+})(foo); // This could be passed (jQuery) and named it ($) in the function.
+
+console.log(foo); // "foo"
+```
+
+An IFFE pattern is a way to manually pass in alias variables from the enclosing scope.
+
+`let` keyword will explicitly "highjack" the scope where the declaration is created rather than to the enclosing function.
+the `let` keyword does not "hoist"
