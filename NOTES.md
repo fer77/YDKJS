@@ -166,14 +166,14 @@ d = function() {
 This would be impossible without the concept of hoisting:
 
 ```javascript
-a(1);
+a(1); // 39 (36 + 1 + 1 + 1)
 
 function a(foo) {
   if (foo > 20) return foo;
   return b(foo + 2);
 }
 function b(foo) {
-  return c(foo) + 1;
+  return c(foo) + 1; // This +1 is added to the stack three times and added to the ending result.
 }
 function c(foo) {
   return a(foo * 2);
