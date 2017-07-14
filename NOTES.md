@@ -179,3 +179,21 @@ function c(foo) {
   return a(foo * 2);
 }
 ```
+
+## 'this' Keyword
+
+_lexical scoping model_ is an author time decision.
+
+**this** every function, while executing has a reference to its current execution content.  This is dependent on the _call site_.
+
+**call site** the placing code where the code is executed with its ().  It doesn't matter where the function is declared.
+
+Four rules for how the _this_ keyword is bound:
+
+1. 
+
+2. 
+
+3. 
+
+4. **defult binding rule**
