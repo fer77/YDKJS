@@ -186,14 +186,117 @@ _lexical scoping model_ is an author time decision.
 
 **this** every function, while executing has a reference to its current execution content.  This is dependent on the _call site_.
 
-**call site** the placing code where the code is executed with its ().  It doesn't matter where the function is declared.
+**hard binding**:
+
+```javascript
+function foo() {
+  console.log(this.bar);
+}
+
+  var obj = { bar: 'bar' };
+  var obj2 = { bar: 'bar2' };
+
+  var orig = foo;
+  foo = function() { orig.call(obj); };
+
+  foo();            // "bar"
+  foo.call(obj2);   // "bar"
+```
+
+The above _hard binding_ can be made a _utility_ to create a whole new function:
+
+```javascript
+if(!Function.prototype.bind2) {
+  Function.prototype.bind2 = function(o) {
+    var fn = this; // the function
+
+    return function() {
+
+      return fn.apply(o, arguments);
+    };
+  };
+}
+
+function foo(baz) {
+  console.log(this.bar + ' ' + baz);
+}
+
+var obj = { bar: 'bar' };
+foo = foo.bind2(obj);
+
+foo('baz'); // "bar baz"
+```
 
 Four rules for how the _this_ keyword is bound:
 
-1. 
+1. **new** binding.  It overwrites any of the other rules.
+    Four things the _new_ keyword does when used in front of a function call:
 
-2. 
+    1. a brand new empty object will be created.
 
-3. 
+    2. that new empty object is linked to a another object. *
 
-4. **defult binding rule**
+    3. that new empty object also gets bound to the `this` keyword for that function call.
+
+    4. if that function does not return anything, it will implicitly incert a `return this`.  So that new empty object will be returned.
+
+2. **explicit binding rule** Applies when the _call siste_ uses `.call()` or `.apply()`, both utilities take as their first parameter a `this` binding (_thisArg, ..._).  `foo.call(obj);` This says explicitly, use _obj_ as `this`.
+
+```javascript
+function foo() {
+  console.log(this.bar);
+}
+
+var bar = 'bar1';
+var obj = { bar: 'bar2' };
+
+foo();            // "bar1"
+foo.call(obj);    // "bar2"
+```
+
+3. **implicit binding rule** Applies when the _call site_ has an _object property reference_ like this `o2.foo();`.  The _base object_ or _context object_(_owning_ or _containing object_), becomes the `this` keyword.
+
+4. **defult binding rule** Applies when the _call site_ looks like this: `foo();` or `(function() {})();` (_IIFE_).  If you're in strict mode, the default `this` keyword is an _undefined_ value. If not in strict mode the default `this` keyword is the _global object_ `foo();`.
+
+```javascript
+function foo() {
+  console.log(this.bar);
+}
+
+var bar = 'bar1';
+var o2 = { bar: 'bar2', foo: foo };
+var o3 = { bar: 'bar3', foo: foo };
+
+foo();      // "bar1"
+o2.foo();   // "bar2"
+03.foo();   // "bar3"
+```
+
+**call site** the place where the code is executed with its ().  It doesn't matter where the function is declared or the order.
+
+```javascript
+var o1 = {
+  bar: 'bar1',
+  foo: function() {
+    console.log(this.bar);
+  }
+};
+
+var o2 = { bar: 'bar2', foo: o1.foo };
+var bar = 'bar3';
+var foo = o1.foo;
+
+o1.foo();   // "bar1"
+o2.foo();   // "bar2"
+foo();      // "bar3"
+```
+
+Questions to ask, after finding the _call site_, about the `this` key word, in order:
+
+1. was the function called with `new`? if so use that object.
+
+2. was the function called with `call` or `apply` specifying an explicit `this`? if so use that object.
+
+3. was the function called via a containing/owning object (context)?
+
+4. DEFAULT: global object (_except strict mode_).
