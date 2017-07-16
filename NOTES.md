@@ -184,7 +184,7 @@ function c(foo) {
 
 _lexical scoping model_ is an author time decision.
 
-**this** every function, while executing has a reference to its current execution content.  This is dependent on the _call site_.
+**this**: every function, while executing has a reference to its current execution content.  `this` is dependent on the _call site_.
 
 **hard binding**:
 
@@ -230,7 +230,7 @@ foo('baz'); // "bar baz"
 Four rules for how the _this_ keyword is bound:
 
 1. **new** binding.  It overwrites any of the other rules.
-    Four things the _new_ keyword does when used in front of a function call:
+Four things the _new_ keyword does when used in front of a function call:
 
     1. a brand new empty object will be created.
 
@@ -300,3 +300,108 @@ Questions to ask, after finding the _call site_, about the `this` key word, in o
 3. was the function called via a containing/owning object (context)?
 
 4. DEFAULT: global object (_except strict mode_).
+
+Closure
+---
+
+>_Closure is when a function "remembers" its lexical scope even when the function is executed outside that lexical scope._
+
+```javascript
+function foo() {
+  var bar = 'bar';
+
+  function baz() {
+    console.log(bar);
+  }
+  bam(baz);
+}
+
+function bam(baz) {
+  baz();            // "bar"
+}
+
+foo();
+```
+
+```javascript
+for (var i = 1; i <= 5; i++) {
+  setTimeout(function() {
+    console.log('i: ' + i);
+    }, i * 1000);
+} // i: 6
+```
+
+This creates a whole difrent scope for each iteration rather than over the whole global scope:
+
+```javascript
+for (var i = 1; i <= 5; i++) {
+  // put an IIFE inside of the loop
+  (function(i) {
+    setTimeout(function() {
+      console.log('i: ' + i);
+      }, i * 1000);
+    })(i);
+}
+```
+
+`let` binds the _i_ not just to the _for loop_, it rebinds the _i_ for each iteration of the _for loop_.
+
+```javascript
+// Works without an IIFE
+for (let i = 1; i < 5; i++) {
+  setTimeout(function() {
+    console.log('i ' + i);
+    }, i * 1000);
+}
+```
+
+For closure to be a closure it has to transport out a function.  This looks like closure, but it is keeping an object reference:
+
+```javascript
+var foo = (function() {
+  var o = { bar: 'bar' };
+
+  return { obj: o };
+  })();
+
+  console.log(foo.obj.bar);   // "bar"
+```
+
+Principle of least privilage or  the **classic module pattern** has two characteristics to it:
+
+1. There must be an outer wrapping function that gets executed, not necessarily an IIFE.
+
+2. There must be one or more inner functions that get returned from the function call, that have a closure over the inner private scope.
+
+```javascript
+var foo = (function() {
+  var o = { bar: 'bar' };
+
+  return {
+    bar: function() {
+      console.log(o.bar);
+    }
+  };
+  })();
+
+  foo.bar();    // "bar"
+```
+
+_modified module pattern_ both `foo` and `publicAPI` have references to the same object:
+
+```javascript
+var foo = (function() {
+  var publicAPI = {
+    bar: function() {
+      publicAPI.baz();
+    },
+    baz: function() {
+      console.log('baz');
+    }
+  };
+
+  return publicAPI;
+  })();
+
+  foo.bar();    // "baz"
+```
