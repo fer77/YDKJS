@@ -181,6 +181,7 @@ function c(foo) {
 ```
 
 ## 'this' Keyword
+---
 
 _lexical scoping model_ is an author time decision.
 
@@ -301,7 +302,7 @@ Questions to ask, after finding the _call site_, about the `this` key word, in o
 
 4. DEFAULT: global object (_except strict mode_).
 
-Closure
+## Closure
 ---
 
 >_Closure is when a function "remembers" its lexical scope even when the function is executed outside that lexical scope._
@@ -406,4 +407,89 @@ var foo = (function() {
   foo.bar();    // "baz"
 ```
 
-##
+## Object-Oriented
+---
+
+Every single "object" is built by a constructor function (constructor call).
+
+A constructor makes an object _linked to_ its own prototype.
+
+**Prototypes**
+`.prtotype`
+`[[Prototype]]` private link, public only to `__prototype__`.
+`__prototype__` _dunderproto_ "getter" function.  Returns the internal prototype linkage of whatever the `this` binding is. 
+
+
+```javascript
+function Foo(who) {
+  this.me = who;
+}
+
+Foo.prototype.identify = function() {
+  return 'I am ' + this.me;
+}
+
+var a1 = new Foo('a1');
+var a2 = new Foo('a2');
+
+a2.speak = function() {
+  alert('Hello ' + this.identify() + '.');
+};
+
+a1.__prototype__ === Object.getPrototypeOf(a1);
+a1.constructor === Foo;
+a1.constructor === a2.constructor;
+a1.__proto__ === Foo.prototype;
+a1.__proto__ === a2.__proto__;
+a2.__proto__ === a2.constructor.prototype;
+```
+
+Four things the _new_ keyword does when used in front of a function call:
+
+  1. a brand new empty object will be created.
+
+  2. that new empty object is linked to a another object. *
+
+  3. that new empty object also gets bound to the `this` keyword for that function call.
+
+  4. if that function does not return anything, it will implicitly incert a `return this`.  So that new empty object will be returned.
+
+```javascript
+  function Foo(who) {
+    this.me = who;
+  }
+
+  Foo.prototype.identify = function() {
+    return 'I am ' + this.me;
+  };
+
+  var a1 = new Foo(a1);
+  a1.identify(); // "I am a1"
+
+  a1.identify = function() { // <-- Shadowing
+    alert('Hello, ' + Foo.prototype.identify.call(this) + '.');
+  };
+
+  a1.identify(); // "Hello I am a1"
+```
+
+It is important to name our methods diffrently than the prototype properties.
+
+```javascript
+  function Foo(who) {
+    this.me = who;
+  }
+
+  Foo.prototype.identify = function() {
+    return 'I am ' + this.me;
+  };
+
+  Foo.prototype.speak = function() {
+    alert('Hello, ' + this.identify() + '.'); // Super unicorn magic
+  }
+
+var a1 = new Foo('a1');
+a1.speak; // "Hello, I am a1."
+```
+
+Delegation as a JS design pattern instead of classes.
