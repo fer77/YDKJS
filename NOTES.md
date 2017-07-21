@@ -415,8 +415,11 @@ Every single "object" is built by a constructor function (constructor call).
 A constructor makes an object _linked to_ its own prototype.
 
 **Prototypes**
+
 `.prtotype`
+
 `[[Prototype]]` private link, public only to `__prototype__`.
+
 `__prototype__` _dunderproto_ "getter" function.  Returns the internal prototype linkage of whatever the `this` binding is. 
 
 
@@ -493,3 +496,25 @@ a1.speak; // "Hello, I am a1."
 ```
 
 Delegation as a JS design pattern instead of classes.
+
+`Object.create` does the first two things the `new` keyword does.
+
+1. a brand new empty object will be created.
+
+2. that new empty object is linked to a another object. *
+  
+
+#### Review
+---
+
+**constructor** A function that is called with the `new` keyword infront of it, a constructor call.  `.constructor` is a property and not the same thing.
+
+**[[Prototype]]** A link[age] from one obj to another obj.  We get that link from `Object.create` or indirectly from step #2.  If an obj can't find a property or method reference it delegates up the prototype chain.
+
+Three ways to find where _[[Prototype]]_ points to:
+
+1. `__prototype__` _dunderproto_
+
+2. `Object.getPrototypeOf`
+
+3. `.constructor.prototype`
