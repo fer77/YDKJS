@@ -420,7 +420,7 @@ A constructor makes an object _linked to_ its own prototype.
 
 `[[Prototype]]` private link, public only to `__prototype__`.
 
-`__prototype__` _dunderproto_ "getter" function.  Returns the internal prototype linkage of whatever the `this` binding is. 
+`__prototype__` _dunderproto_ "getter" function.  Returns the internal prototype linkage of whatever the `this` binding is.
 
 
 ```javascript
@@ -502,7 +502,7 @@ Delegation as a JS design pattern instead of classes.
 1. a brand new empty object will be created.
 
 2. that new empty object is linked to a another object. *
-  
+
 
 #### Review
 ---
@@ -518,3 +518,5 @@ Three ways to find where _[[Prototype]]_ points to:
 2. `Object.getPrototypeOf`
 
 3. `.constructor.prototype`
+
+## inheritance
