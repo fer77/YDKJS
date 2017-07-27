@@ -520,3 +520,19 @@ Three ways to find where _[[Prototype]]_ points to:
 3. `.constructor.prototype`
 
 ## inheritance
+
+**Classical Inhritance** Copies of the parent object.
+
+**Prototypal Inheritance** Behavior/delegation link.
+
+> JS uses behavior delegation not inheritance.
+
+**Objects Linked to Other Objects(OLOO)** 
+
+### Review
+
+- [[Prototype]] _links_, it does not copy.
+
+- _Behavior Delegation_: objects delegates up its prototype chain.  Delagation allows for dynamic linkage between objects.  Classes copy behavior and do not allow for this delagation to happen.
+
+- There's no shadowing when delegation is used as a design pattern.
