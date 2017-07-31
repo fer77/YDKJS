@@ -536,3 +536,5 @@ Three ways to find where _[[Prototype]]_ points to:
 - _Behavior Delegation_: objects delegates up its prototype chain.  Delagation allows for dynamic linkage between objects.  Classes copy behavior and do not allow for this delagation to happen.
 
 - There's no shadowing when delegation is used as a design pattern.
+
+> If you want to delagate, our variables will have to be public.
