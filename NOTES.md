@@ -527,7 +527,7 @@ Three ways to find where _[[Prototype]]_ points to:
 
 > JS uses behavior delegation not inheritance.
 
-**Objects Linked to Other Objects(OLOO)** 
+**Objects Linked to Other Objects(OLOO)**
 
 ### Review
 
@@ -537,4 +537,79 @@ Three ways to find where _[[Prototype]]_ points to:
 
 - There's no shadowing when delegation is used as a design pattern.
 
-> If you want to delagate, our variables will have to be public.
+> To delagate, variables have to be public.
+
+## Async Patterns
+
+The solution _async patterns_ attempts to solve is to express asynchronous looking code in a synchronous looking fashion.
+
+Async Patterns:
+
+- Callbacks
+- Generators/Coroutines
+- Promises
+
+### Callbacks
+
+a _callback_ is a continuation.
+
+**Inversion of Control** giving trust to another program to handle our code (continuation).
+
+### Generators (yield)
+
+Introduced in ES6.  Generators can pause right in the middle of the function and be resumed later.  Generators get rid of the run to _completion assumption_ JS.
+
+**Run to completion** The assumption that out code runs all the way through before any other code gets executed.
+
+```javascript
+  function* gen() {
+    console.log('Hello');
+    yield null; // Two way message passing mechanism, to and from our generator.
+    console.log('World');
+  }
+
+  var it = gen();
+  it.next(); // "Hello"
+  it.next(); //"World"
+```
+
+When a _generator function_ it actually constructs an _iterator_ for us, to control the operation of our _generator_.  A _generator_ can "pause" itself and an _iterator_ can resume it.
+
+## Promises
+
+Gives us a very synchronous looking syntax for a very asynchronous set of tasks.
+"Continuation Event"
+
+```javascript
+  var wait = jQuery.Deferred();
+  var p = wait.promise();
+
+  p.done(function(value) {
+    console.log(value);
+  });
+
+  setTimeout(function() {
+    wait.resolve(Math.random());
+  }, 1000);
+```
+
+Listen for the completion of a promise and and we decide what to do next.
+
+```javascript
+function waitForN(n) {
+  var d = $.Deferred();
+  setTimeout(d.resolve, n);
+  return d.promise();
+}
+
+waitForN(1000)
+.then(function() {
+  console.log('Hello World');
+  return waitForN(2000);
+})
+.then(function() {
+  console.log('finally!');
+});
+```
+
+Promises uninverts inversion of control to give us control of our program.
