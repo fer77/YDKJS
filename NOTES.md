@@ -613,3 +613,28 @@ waitForN(1000)
 ```
 
 Promises uninverts inversion of control to give us control of our program.
+
+## Asynquence
+
+**sequence** automatically chained promises.
+
+**Asynquence** asynchronous sequence.
+
+**sequences & gates**:
+```javascript
+  ASQ()
+  .then(function(done) {
+    setTimeout(done, 1000);
+  })
+  .gate(
+    function(done) {
+      setTimeout(done, 1000);
+    },
+    function() {
+      setTimeout(done, 1000);
+    }
+  )
+  .then(function() {
+    console.log('2 seconds passed!');
+  });
+```
