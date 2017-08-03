@@ -102,7 +102,7 @@ An IFFE pattern is a way to manually pass in alias variables from the enclosing 
 `let` keyword will explicitly "highjack" the scope where the declaration is created rather than to the enclosing function.
 the `let` keyword does not "hoist"
 
-## Review
+### Review
 ---
 
 What type of scoping does JS have? Exceptions?
@@ -504,7 +504,7 @@ Delegation as a JS design pattern instead of classes.
 2. that new empty object is linked to a another object. *
 
 
-#### Review
+### Review
 ---
 
 **constructor** A function that is called with the `new` keyword infront of it, a constructor call.  `.constructor` is a property and not the same thing.
@@ -638,3 +638,14 @@ Promises uninverts inversion of control to give us control of our program.
     console.log('2 seconds passed!');
   });
 ```
+
+### Review
+---
+
+_callback hell_ is handing the control of your program, "inversion control".
+
+_yield_ pauses a generator and _next_
+
+_promise_ is a future value.  Gives back control of your program, virtually "uninverting" control.
+
+_generators_ and _promises_ for flow control, call a _generator_ _yield_ a _promise_ and when the _promise_ finishes it restarts the _generator_.
